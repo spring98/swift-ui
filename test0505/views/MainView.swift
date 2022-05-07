@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  MainView.swift
 //  test0505
 //
 //  Created by spring on 2022/05/06.
@@ -10,12 +10,25 @@ import SwiftUI
 struct MainView: View {
     
     @State var index:Int = 0
+    @StateObject var authViewModel = AuthViewModel()
+    
     
     var body: some View {
         
         NavigationView {
             VStack() {
                 Text("\(index)")
+//                Text("\(authViewModel.user.name)")
+                Text("과연")
+                Text((authViewModel.authModel?.user.details.name) ?? "아직 데이터 불러오지 않음")
+                Button(action: {
+                    Task  {
+                        try await authViewModel.fetchURLSession()
+                        
+                    }
+                }) {
+                    Text("이름 변경 버튼")
+                }
 //                Spacer()
 //                TabBar()
             }
@@ -29,6 +42,7 @@ struct MainView: View {
         
         
     }
+    
 }
 
 struct TabBar:View {
@@ -80,7 +94,7 @@ struct TabBar:View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
     }
